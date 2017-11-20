@@ -4,7 +4,7 @@
 
 IF EXIST zlib GOTO CONT1
 	@echo "Cloning Git repo for zlib"
-	git clone git@github.com:madler/zlib.git
+	git clone git@github.com:madler/zlib.git zlib
 :CONT1
 
 cd zlib
@@ -19,8 +19,8 @@ REM ===========================================================================
 REM Save original zlibstat.vcxproj to a temporary folder
 xcopy zlib\contrib\vstudio\vc12\zlibstat.vcxproj zlib\contrib\vstudio\vc12\_data_logics_\ /Y
 
-REM Run Python script, which replaces ZLIB_WINAPI with nothing
-python replace_def.py zlib\contrib\vstudio\vc12\zlibstat.vcxproj ZLIB_WINAPI; ""
+REM Run Python script, which replaces ZLIB_WINAPI with nothing and MultiThreadDLL with MiltiThread
+python replace_def.py zlib\contrib\vstudio\vc12\zlibstat.vcxproj ["ZLIB_WINAPI;","MultiThreadedDLL","MultiThreadedDebugDLL"]  ["","MultiThreaded","MultiThreadedDebug"]
 
 REM ===========================================================================
 REM Build 64 bit version of the library
